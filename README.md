@@ -1,8 +1,7 @@
 # Ingress +β Progress Tracker
 
-A small, client-side progress tracker for the Ingress +β event.  
+A small, client-side progress tracker for the Ingress +β event.  Test it out: https://ShadowfootNZ.github.io/Ingress-Beta-Progress/
 Enter your current score and the page will show days remaining, remaining bounty points, and how far you are from Bronze / Silver / Gold targets.
-Test it out: https://ShadowfootNZ.github.io/Ingress-Beta-Progress/
 
 Features
 - Shows days remaining until the event end date.
@@ -11,11 +10,8 @@ Features
 - Uses custom tier icons (one image per tier) placed next to each target.
 
 Usage
-1. Open `index.html` in a browser (no server required).  
-   Or click the link: [Open index.html](index.html)  
-   (HTML fallback — opens in a new tab where supported: <a href="index.html" target="_blank" rel="noopener">Open index.html</a>)
-2. Enter your current score in the input and press Enter or click "Calculate".
-3. The page updates:
+1. Enter your current score in the input and press Enter or click "Calculate".
+2. The page updates:
    - Days remaining
    - Remaining bounty points available
    - Targets with tier icons and points/days needed
