@@ -51,7 +51,8 @@
 <div class="card">
   <h2>Ingress +β Progress</h2>
   <p>Daily Bounties: <span class="accent">6 × 10 pts = 60 pts/day</span></p>
-  <p>Days remaining: <span class="accent" id="daysRemaining">—</span></p>
+  <p>Days remaining: <span class="accent" id="daysRemaining">—</span>
+    (ends <span class="accent" id="endDateDisplay">—</span>)</p>
   <p>Remaining bounty tokens available: <span class="accent" id="remainingTokens">—</span></p>
   <input type="number" id="score" placeholder="Current tokens">
   <button onclick="calculate()">Calculate</button>
@@ -62,6 +63,13 @@
 const tiers = { bronze: 3000, silver: 6000, gold: 9000 };
 const endDate = new Date('2025-12-14T23:59:59');
 const startDate = new Date('2025-10-01T00:00:00');
+
+// Helper: format a Date using the visitor's locale, e.g. "14 Dec 2025" in en or a local equivalent
+function formatDate(d) {
+  const opts = { day: '2-digit', month: 'short', year: 'numeric' };
+  // undefined => use the runtime's default locale; alternatively use navigator.language
+  return d.toLocaleDateString(undefined, opts);
+}
 
 // Map tiers to the provided icon filenames (files should be in the same folder)
 const icons = {
@@ -82,6 +90,8 @@ function calculate() {
   const availableTokens = daysLeft * 60;
   document.getElementById('daysRemaining').textContent = daysLeft;
   document.getElementById('remainingTokens').textContent = availableTokens;
+  // show formatted end date next to the days remaining
+  document.getElementById('endDateDisplay').textContent = formatDate(endDate);
   
   let html = `<h3>Targets</h3><ul>`;
   
