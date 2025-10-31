@@ -68,6 +68,7 @@
 </div>
 
 <script>
+const STORAGE_KEY = 'ingress-beta-last-score';
 const tiers = { bronze: 3000, silver: 6000, gold: 9000 };
 const endDate = new Date('2025-12-14T23:59:59');
 const startDate = new Date('2025-10-01T00:00:00');
@@ -87,7 +88,16 @@ const icons = {
 };
 
 function calculate() {
-  const score = parseInt(document.getElementById('score').value) || 0;
+  const inputEl = document.getElementById('score');
+  const rawValue = inputEl.value.trim();
+  // persist or remove from storage
+  if (rawValue === '') {
+    localStorage.removeItem(STORAGE_KEY);
+  } else {
+    localStorage.setItem(STORAGE_KEY, rawValue);
+  }
+  const score = parseInt(rawValue) || 0;
+
   const today = new Date();
   const msPerDay = 1000 * 60 * 60 * 24;
   // Compute raw days remaining (ceil of fractional day), then subtract 1 to exclude today.
@@ -119,7 +129,6 @@ function calculate() {
   document.getElementById('result').innerHTML = html;
 }
 
-  
 // Add this: trigger calculate() when Enter is pressed in the input
 const scoreInput = document.getElementById('score');
 scoreInput.addEventListener('keydown', (e) => {
@@ -130,7 +139,13 @@ scoreInput.addEventListener('keydown', (e) => {
 });
 
 // Add: calculate once when the page loads so days remaining & remaining tokens are shown immediately
-window.addEventListener('DOMContentLoaded', calculate);
+window.addEventListener('DOMContentLoaded', () => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored !== null) {
+    document.getElementById('score').value = stored;
+  }
+  calculate();
+});
 </script>
 </body>
 </html>
