@@ -1,6 +1,6 @@
 # Ingress +β Progress Tracker
 
-A small, client-side progress tracker for the Ingress +β event.  Test it out: https://ShadowfootNZ.github.io/Ingress-Beta-Progress/
+A small, client-side progress tracker for the Ingress +β event.  https://ShadowfootNZ.github.io/Ingress-Beta-Progress/ 
 Enter your current score and the page will show days remaining, remaining bounty points, and how far you are from Bronze / Silver / Gold targets.
 
 Features
