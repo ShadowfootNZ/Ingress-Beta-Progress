@@ -19,13 +19,22 @@
     text-align: center;
   }
   input {
-    width: 13em; padding: 0.5em; margin: 0.5em 0; font-size: 1.1em;
+    width: 10em; font-size: 1.1em;
+    /* Set a fixed height and include padding in that height for both controls */
+    height: 2.6em;
+    box-sizing: border-box;
+    padding: 0 0.6em;
+    margin: 0.5em 0;
     border-radius: 6px; border: none; text-align: center;
   }
   button {
     background: #0EF800; color: #000; border: none;
-    padding: 0.6em 1.2em; font-weight: 600; border-radius: 6px;
+    height: 2.6em;
+    box-sizing: border-box;
+    padding: 0 1.2em; /* horizontal padding only, vertical space defined by height */
+    font-weight: 600; border-radius: 6px;
     cursor: pointer; margin-top: 0.5em;
+    display: inline-flex; align-items: center; justify-content: center;
   }
   .result { margin-top: 1em; text-align: left; }
   .accent { color: #0EF800; }
@@ -43,8 +52,8 @@
   <h2>Ingress +β Progress</h2>
   <p>Daily Bounties: <span class="accent">6 × 10 pts = 60 pts/day</span></p>
   <p>Days remaining: <span class="accent" id="daysRemaining">—</span></p>
-  <p>Remaining bounty points available: <span class="accent" id="remainingPoints">—</span></p>
-  <input type="number" id="score" placeholder="Enter your current score">
+  <p>Remaining bounty tokens available: <span class="accent" id="remainingTokens">—</span></p>
+  <input type="number" id="score" placeholder="Current tokens">
   <button onclick="calculate()">Calculate</button>
   <div class="result" id="result"></div>
 </div>
@@ -66,19 +75,19 @@ function calculate() {
   const today = new Date();
   const daysLeft = Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24)));
   const totalDays = Math.ceil((endDate - startDate) / (1000*60*60*24)) + 1;
-  const availablePoints = daysLeft * 60;
+  const availableTokens = daysLeft * 60;
   document.getElementById('daysRemaining').textContent = daysLeft;
-  document.getElementById('remainingPoints').textContent = availablePoints;
+  document.getElementById('remainingTokens').textContent = availableTokens;
   
   let html = `<h3>Targets</h3><ul>`;
   
   for (const [tier, value] of Object.entries(tiers)) {
-    const pointsNeeded = value - score;
-    if (pointsNeeded <= 0) {
+    const tokensNeeded = value - score;
+    if (tokensNeeded <= 0) {
       html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"> ${tier.toUpperCase()} (${value}): ✅</li>`;
     } else {
-      const daysNeeded = Math.ceil(pointsNeeded / 60);
-      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"> ${tier.toUpperCase()} (${value}): <span class="warn">${pointsNeeded}</span> points short (${daysNeeded} days of bounties)</li>`;
+      const daysNeeded = Math.ceil(tokensNeeded / 60);
+      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"> ${tier.toUpperCase()} (${value}): <span class="warn">${tokensNeeded}</span> tokens short (${daysNeeded} days)</li>`;
     }
   }
 
@@ -96,7 +105,7 @@ scoreInput.addEventListener('keydown', (e) => {
   }
 });
 
-// Add: calculate once when the page loads so days remaining & remaining points are shown immediately
+// Add: calculate once when the page loads so days remaining & remaining tokens are shown immediately
 window.addEventListener('DOMContentLoaded', calculate);
 </script>
 </body>
