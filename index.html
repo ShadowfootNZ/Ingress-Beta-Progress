@@ -61,10 +61,10 @@ function calculate() {
   for (const [tier, value] of Object.entries(tiers)) {
     const pointsNeeded = value - score;
     if (pointsNeeded <= 0) {
-      html += `<li>${tier.toUpperCase()}: ✅ Achieved (${value})</li>`;
+      html += `<li>${tier.toUpperCase()} (${value}): ✅</li>`;
     } else {
       const daysNeeded = Math.ceil(pointsNeeded / 60);
-      html += `<li>${tier.toUpperCase()}: <span class="warn">${pointsNeeded}</span> points (${daysNeeded} days of bounties)</li>`;
+      html += `<li>${tier.toUpperCase()} (${value}): <span class="warn">${pointsNeeded}</span> points (${daysNeeded} days of bounties)</li>`;
     }
   }
 
