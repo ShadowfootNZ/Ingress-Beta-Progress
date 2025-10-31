@@ -60,8 +60,8 @@
 
 <script>
 const tiers = { bronze: 3000, silver: 6000, gold: 9000 };
-const endDate = new Date('2025-12-14');
-const startDate = new Date('2025-10-01');
+const endDate = new Date('2025-12-14T23:59:59');
+const startDate = new Date('2025-10-01T00:00:00');
 
 // Map tiers to the provided icon filenames (files should be in the same folder)
 const icons = {
@@ -73,7 +73,11 @@ const icons = {
 function calculate() {
   const score = parseInt(document.getElementById('score').value) || 0;
   const today = new Date();
-  const daysLeft = Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24)));
+  const msPerDay = 1000 * 60 * 60 * 24;
+  // Compute raw days remaining (ceil of fractional day), then subtract 1 to exclude today.
+  // Clamp to zero so we never show negative days.
+  const rawDays = Math.ceil((endDate - today) / msPerDay);
+  const daysLeft = Math.max(0, rawDays - 1);
   const totalDays = Math.ceil((endDate - startDate) / (1000*60*60*24)) + 1;
   const availableTokens = daysLeft * 60;
   document.getElementById('daysRemaining').textContent = daysLeft;
