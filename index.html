@@ -44,19 +44,27 @@
   .result ul { list-style: none; padding: 0; margin: 0; }
   .result li { display: flex; align-items: center; gap: 0.6em; margin: 0.4em 0; }
   .result img.target-icon { width: 64px; height: auto; display: inline-block; }
+
+  /* small informational link under the title */
+  .info-link { font-size: 1em; margin-top: 0.25em; color: #9ba1ff; }
+  .info-link a { color: inherit; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="card">
   <h2>Ingress +β Progress</h2>
+ 
   <p>Daily Bounties: <span class="accent">6 × 10 pts = 60 pts/day</span></p>
   <p>Days remaining: <span class="accent" id="daysRemaining">—</span>
     (ends <span class="accent" id="endDateDisplay">—</span>)</p>
   <p>Remaining bounty tokens available: <span class="accent" id="remainingTokens">—</span></p>
+ 
   <input type="number" id="score" placeholder="Current tokens">
   <button onclick="calculate()">Calculate</button>
+   
   <div class="result" id="result"></div>
+  <p class="info-link"><a href="https://ingress.com/en/news/2025-plusbeta" target="_blank" rel="noopener noreferrer">+β anomaly season overview</a></p>
 </div>
 
 <script>
@@ -110,6 +118,8 @@ function calculate() {
 
   document.getElementById('result').innerHTML = html;
 }
+
+  
 // Add this: trigger calculate() when Enter is pressed in the input
 const scoreInput = document.getElementById('score');
 scoreInput.addEventListener('keydown', (e) => {
