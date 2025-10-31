@@ -50,7 +50,11 @@
   /* Add: style targets list to remove bullets and align image + text */
   .result ul { list-style: none; padding: 0; margin: 0; }
   .result li { display: flex; align-items: center; gap: 0.6em; margin: 0.4em 0; }
+  /* make the textual part a single flex child that can wrap internally */
+  .tier-label { display: flex; align-items: center; gap: 0.4em; flex-wrap: wrap; }
   .result img.target-icon { width: 64px; height: auto; display: inline-block; }
+  /* keep the numeric warning and its unit together */
+  .warn { white-space: nowrap; color: #ff5f5f; }
 
   /* small informational link under the title */
   .info-link { font-size: 1em; margin-top: 0.25em; color: #9ba1ff; }
@@ -123,10 +127,10 @@ function calculate() {
   for (const [tier, value] of Object.entries(tiers)) {
     const tokensNeeded = value - score;
     if (tokensNeeded <= 0) {
-      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"> ${tier.toUpperCase()} (${value}): ✅</li>`;
+      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"><div class="tier-label">${tier.toUpperCase()} (${value}): ✅</div></li>`;
     } else {
       const daysNeeded = Math.ceil(tokensNeeded / 60);
-      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"> ${tier.toUpperCase()} (${value}): <span class="warn">${tokensNeeded}</span> tokens short (${daysNeeded} days)</li>`;
+      html += `<li><img class="target-icon" src="${encodeURI(icons[tier])}" alt="${tier} icon"><div class="tier-label">${tier.toUpperCase()} (${value}): <span class="warn">${tokensNeeded}</span> tokens short (${daysNeeded} days)</div></li>`;
     }
   }
 
