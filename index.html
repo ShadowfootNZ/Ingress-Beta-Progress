@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingress Plus Beta Progress Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #0d0d0d;
+    color: #e0e0e0;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; margin: 0; flex-direction: column;
+  }
+  .card {
+    background: #111; padding: 2em; border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,196,255,0.3);
+    width: 320px; text-align: center;
+  }
+  input {
+    width: 100%; padding: 0.5em; margin: 0.5em 0; font-size: 1.1em;
+    border-radius: 6px; border: none; text-align: center;
+  }
+  button {
+    background: #00c4ff; color: #000; border: none;
+    padding: 0.6em 1.2em; font-weight: 600; border-radius: 6px;
+    cursor: pointer; margin-top: 0.5em;
+  }
+  .result { margin-top: 1em; text-align: left; }
+  .accent { color: #00ff9c; }
+  .warn { color: #ff5f5f; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Ingress Plus Beta Progress</h2>
+  <p>Daily Bounties: <span class="accent">6 × 10 pts = 60 pts/day</span></p>
+  <input type="number" id="score" placeholder="Enter your current score">
+  <button onclick="calculate()">Calculate</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const tiers = { bronze: 600, silver: 1200, gold: 1800 };
+const endDate = new Date('2025-12-14');
+const startDate = new Date('2025-10-01');
+
+function calculate() {
+  const score = parseInt(document.getElementById('score').value) || 0;
+  const today = new Date();
+  const daysLeft = Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24)));
+  const totalDays = Math.ceil((endDate - startDate) / (1000*60*60*24)) + 1;
+  const availablePoints = daysLeft * 60;
+  
+  let html = `<p>Days remaining: <span class="accent">${daysLeft}</span></p>`;
+  html += `<p>Remaining bounty points available: <span class="accent">${availablePoints}</span></p>`;
+  html += `<h3>Targets</h3><ul>`;
+  
+  for (const [tier, value] of Object.entries(tiers)) {
+    const pointsNeeded = value - score;
+    if (pointsNeeded <= 0) {
+      html += `<li>${tier.toUpperCase()}: ✅ Achieved (${value})</li>`;
+    } else {
+      const daysNeeded = Math.ceil(pointsNeeded / 60);
+      html += `<li>${tier.toUpperCase()}: <span class="warn">${pointsNeeded}</span> points (${daysNeeded} days of bounties)</li>`;
+    }
+  }
+  html += `</ul><p>Total bounty days in event: ${totalDays}</p>`;
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>
