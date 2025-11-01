@@ -112,7 +112,7 @@
     <p>Days remaining: <span class="accent" id="daysRemaining">—</span>
       (ends <span class="accent" id="endDateDisplay">—</span>)</p>
     <p>Remaining bounty tokens available: <span class="accent" id="remainingTokens">—</span></p>
-    <input type="number" id="score" placeholder="Current tokens"  min="0">
+    <input type="number" id="score" placeholder="Current tokens"  min="0" step="10">
     <button onclick="calculate()">Calculate</button>
     <div class="result" id="result"></div>
     <p class="info-link"><a href="https://ingress.com/en/news/2025-plusbeta" target="_blank" rel="noopener noreferrer">+β anomaly season overview</a></p>
@@ -194,6 +194,9 @@
         calculate();
       }
     });
+
+    // Recalculate automatically when the number changes (including step arrows)
+    scoreInput.addEventListener('input', calculate);
 
     // Calculate once when the page loads so days remaining & remaining tokens are shown immediately
     window.addEventListener('DOMContentLoaded', () => {
